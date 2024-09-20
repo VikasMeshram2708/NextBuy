@@ -9,13 +9,22 @@ export const Navbar = () => {
     <nav className="shadow">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Link href="/" className="flex items-center" aria-label="Home">
-          <Image
-            width={300}
-            height={300}
-            className="w-24 h-20"
-            src="./navbar-logo.svg"
-            alt="SecureCheckoutDeals: Safe Online Shopping & Best Deals in India"
-          />
+          <video
+          className="w-10 h-10 rounded-full"
+            style={{
+              placeSelf: "center",
+              boxSizing: "border-box",
+            }}
+            autoPlay
+            loop
+            muted
+          >
+            <source
+              src="./logo.mp4"
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
         </Link>
 
         {/* Desktop Navigation */}

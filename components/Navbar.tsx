@@ -1,8 +1,15 @@
-import { Menu } from "lucide-react";
+import { Menu,ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
-import Image from "next/image";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "./ui/sheet";
+import { Input } from "./ui/input";
 
 export const Navbar = () => {
   return (
@@ -10,7 +17,7 @@ export const Navbar = () => {
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Link href="/" className="flex items-center" aria-label="Home">
           <video
-          className="w-10 h-10 rounded-full"
+            className="w-10 h-10 rounded-full"
             style={{
               placeSelf: "center",
               boxSizing: "border-box",
@@ -19,78 +26,76 @@ export const Navbar = () => {
             loop
             muted
           >
-            <source
-              src="./logo.mp4"
-              type="video/mp4"
-            />
+            <source src="./logo.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex space-x-8">
-          {["Home", "About", "Services", "Privacy", "Contact"].map((item) => (
-            <Link
-              key={item}
-              href={`/${item.toLowerCase()}`}
-              className="text-sm hover:underline transition"
-            >
-              {item}
-            </Link>
-          ))}
+        <div className="hidden lg:block max-w-5xl w-full">
+          <Input placeholder="Search" className="rounded" />
+        </div>
+
+        <div className="hidden lg:block">
+          <Button>
+            <ShoppingCart />
+          </Button>
         </div>
 
         {/* Mobile Navigation */}
-        <div className="md:hidden">
+        <div className="lg:hidden">
           <Sheet>
-            <SheetTrigger className="lg:hidden" asChild>
-              <Button variant="outline" aria-label="Open menu">
-                <Menu />
-              </Button>
+            <SheetTrigger>
+              <Menu color="white" />
+              {/* <Button variant={"secondary"}>
+              </Button> */}
             </SheetTrigger>
-            <SheetContent className="dark" side="right">
-              <div className="flex flex-col space-y-4 p-4">
-                <Link
-                  href="/"
-                  className="flex items-center mb-4"
-                  aria-label="Home"
-                >
-                  <Image
-                    width={300}
-                    height={300}
-                    className="w-full h-20"
-                    src="./navbar-logo.svg"
-                    alt="SecureCheckoutDeals: Safe Online Shopping & Best Deals in India"
-                  />
-                </Link>
-                {["Home", "About", "Services", "Privacy", "Contact"].map(
-                  (item) => (
-                    <Link
-                      key={item}
-                      href={`/${item.toLowerCase()}`}
-                      className="text-sm hover:underline transition"
+            <SheetContent className="dark">
+              <SheetHeader>
+                <SheetTitle className="">
+                  <Link
+                    href="/"
+                    className="flex items-center"
+                    aria-label="Home"
+                  >
+                    <video
+                      className="w-10 h-10 rounded-full"
+                      style={{
+                        placeSelf: "center",
+                        boxSizing: "border-box",
+                      }}
+                      autoPlay
+                      loop
+                      muted
                     >
-                      {item}
-                    </Link>
-                  )
-                )}
-                <div className="space-x-4 pt-5">
-                  <Button variant={"secondary"} className="font-bold">
-                    Login
-                  </Button>
-                  <Button variant={"outline"}>Sign Up</Button>
-                </div>
-              </div>
+                      <source src="./logo.mp4" type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  </Link>
+
+                  {/* Desktop Navigation */}
+                  <ul className="grid w-full items-center space-y-4 mt-10">
+                    {["Home", "About", "Services", "Privacy", "Contact"].map(
+                      (item) => (
+                        <Link
+                          key={item}
+                          href={`/${item.toLowerCase()}`}
+                          className="text-white text-sm hover:underline transition"
+                        >
+                          {item}
+                        </Link>
+                      )
+                    )}
+                  </ul>
+                </SheetTitle>
+                <SheetDescription className="mt-10 py-5">
+                  <span className="space-x-4">
+                    <Button variant={"secondary"}>Login</Button>
+                    <Button variant={"outline"}>Sign Up</Button>
+                  </span>
+                </SheetDescription>
+              </SheetHeader>
             </SheetContent>
           </Sheet>
-        </div>
-
-        {/* Desktop Buttons */}
-        <div className="space-x-4 hidden lg:flex">
-          <Button variant="secondary" className="font-bold">
-            Login
-          </Button>
-          <Button variant="outline">Sign Up</Button>
         </div>
       </div>
     </nav>

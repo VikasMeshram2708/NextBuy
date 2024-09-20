@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 100">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#4CAF50;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2196F3;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="300" height="100" fill="white"/>
+  <path d="M40,20 L60,20 L80,50 L60,80 L40,80 L60,50 Z" fill="url(#grad1)"/>
+  <circle cx="60" cy="50" r="15" fill="white"/>
+  <path d="M55,50 L60,55 L70,45" stroke="#4CAF50" stroke-width="3" fill="none"/>
+  <text x="100" y="45" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#333">SecureCheckout</text>
+  <text x="100" y="70" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#4CAF50">Deals</text>
+</svg>

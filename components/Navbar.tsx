@@ -61,7 +61,9 @@ export const Navbar = () => {
                     <Link href={i.url}>
                       <span>{i.label}</span>
                       {i.label === "Billing" && (
-                        <span className="absolute right-2 top-2">{pCount?.length}</span>
+                        <span className="absolute right-2 top-2">
+                          {pCount?.length}
+                        </span>
                       )}
                     </Link>
                   </DropdownMenuItem>
@@ -106,19 +108,13 @@ export const Navbar = () => {
                     className="flex items-center"
                     aria-label="Home"
                   >
-                    <video
-                      className="w-10 h-10 rounded-full"
-                      style={{
-                        placeSelf: "center",
-                        boxSizing: "border-box",
-                      }}
-                      autoPlay
-                      loop
-                      muted
-                    >
-                      <source src="./logo.mp4" type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
+                    <Image
+                      width={500}
+                      height={500}
+                      src="/nav-logo.png"
+                      alt="NextBuy: Secure Online Shopping & Best Deals in India"
+                      className="w-12 bg-cover h-12 rounded-full"
+                    />
                   </Link>
 
                   {/* Desktop Navigation */}
@@ -127,9 +123,14 @@ export const Navbar = () => {
                       <Link
                         key={item.label}
                         href={item.url}
-                        className="text-white text-sm hover:underline transition"
+                        className="text-white relative text-sm hover:underline transition"
                       >
                         <span>{item.label}</span>
+                        {item.label === "Billing" && (
+                          <span className="absolute right-2 top-0">
+                            {pCount?.length}
+                          </span>
+                        )}
                       </Link>
                     ))}
                   </ul>

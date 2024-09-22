@@ -11,8 +11,7 @@ import {
 } from "./ui/card";
 import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/app/store/store";
+import { useDispatch} from "react-redux";
 import { addProduct } from "@/app/store/productSlice";
 
 type Props = {
@@ -21,12 +20,9 @@ type Props = {
 };
 
 export default function ProductCard({ products, isLoading }: Props) {
-  const { products: items } = useSelector((state: RootState) => state.product);
-  console.log("p", items);
   const dispatch = useDispatch();
 
   const handleAdd = async (productId: number) => {
-    console.log("pid", productId);
     // @ts-ignore
     dispatch(addProduct({ productId }));
   };

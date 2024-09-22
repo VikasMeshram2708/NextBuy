@@ -6,7 +6,7 @@ export async function GetDataFromToken(req: NextRequest) {
     req,
     secret: process.env.AUTH_SECRET!,
   });
-  console.log('sed', session)
+  // console.log('sed', session)
   if (!session) return undefined;
   return session;
 }

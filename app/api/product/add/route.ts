@@ -13,10 +13,10 @@ export const POST = async (request: NextRequest) => {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    console.log("uds", session);
+    // console.log("uds", session);
 
     const reqBody = await request.json();
-    console.log("rd", reqBody);
+    // console.log("rd", reqBody);
 
     const parsedRes = addProductSchema.safeParse(reqBody);
 
@@ -28,7 +28,7 @@ export const POST = async (request: NextRequest) => {
     }
 
     const parsedData = parsedRes.data;
-    console.log("parsedData", parsedData);
+    // console.log("parsedData", parsedData);
 
     await ConnectDB();
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
 import Image from "next/image";
@@ -10,6 +11,9 @@ import {
 } from "./ui/card";
 import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/app/store/store";
+import { addProduct } from "@/app/store/productSlice";
 
 type Props = {
   isLoading: boolean;
@@ -17,6 +21,16 @@ type Props = {
 };
 
 export default function ProductCard({ products, isLoading }: Props) {
+  const { products: items } = useSelector((state: RootState) => state.product);
+  console.log("p", items);
+  const dispatch = useDispatch();
+
+  const handleAdd = async (productId: number) => {
+    console.log("pid", productId);
+    // @ts-ignore
+    dispatch(addProduct({ productId }));
+  };
+
   return (
     <section>
       <div className="grid gap-3 md:gap-4 lg:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
@@ -37,7 +51,6 @@ export default function ProductCard({ products, isLoading }: Props) {
 
                 <CardFooter className="flex justify-between">
                   <Skeleton className="w-[100px] h-[30px]" />
-
                   <Skeleton className="w-[100px] h-[30px]" />
                 </CardFooter>
               </Card>
@@ -55,11 +68,19 @@ export default function ProductCard({ products, isLoading }: Props) {
                       layout="fill"
                     />
                   </div>
-                  <span className="text-sm line-clamp-2">{product?.description}</span>
+                  <span className="text-sm line-clamp-2">
+                    {product?.description}
+                  </span>
                 </CardContent>
-                <CardFooter className="flex justify-between">
+                <CardFooter className="flex justify-between flex-wrap gap-2">
                   <Button variant={"ghost"}>$ {product?.price}</Button>
-                  <Button variant={"outline"}>Add To Cart</Button>
+                  <Button variant={"destructive"}>Remove Item</Button>
+                  <Button
+                    onClick={() => handleAdd(+product?.id)}
+                    variant={"outline"}
+                  >
+                    Add To Cart
+                  </Button>
                 </CardFooter>
               </Card>
             ))}

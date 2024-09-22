@@ -34,7 +34,7 @@ export default function ProductsCarousel() {
 
   if (isLoading) {
     return (
-      <Carousel className="dark container mx-auto">
+      <Carousel className="dark container max-w-7xl mx-auto">
         <CarouselContent>
           {Array.from({ length: 3 }).map((_, index) => (
             <CarouselItem key={index}>

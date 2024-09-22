@@ -23,9 +23,13 @@ import { Input } from "./ui/input";
 import { links } from "@/app/seed/NavLInks";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store/store";
 
 export const Navbar = () => {
   const { status } = useSession();
+  const pCount = useSelector((state: RootState) => state.product.products);
+
   return (
     <nav className="shadow">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center gap-2">
@@ -53,9 +57,12 @@ export const Navbar = () => {
               {/* <DropdownMenuSeparator /> */}
               <div>
                 {links?.map((i) => (
-                  <DropdownMenuItem key={i?.label}>
+                  <DropdownMenuItem key={i?.label} className="relative">
                     <Link href={i.url}>
                       <span>{i.label}</span>
+                      {i.label === "Billing" && (
+                        <span className="absolute right-2 top-2">{pCount?.length}</span>
+                      )}
                     </Link>
                   </DropdownMenuItem>
                 ))}

@@ -1,3 +1,13 @@
+interface UserSession {
+  email: string;
+  sub: string;
+  id: string;
+  username: "vikas";
+  iat: number;
+  exp: number;
+  jti: string;
+}
+
 interface Product {
   id: number;
   title: string;

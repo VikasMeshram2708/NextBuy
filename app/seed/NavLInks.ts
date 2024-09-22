@@ -13,10 +13,6 @@ export const links: NavLink[] = [
     url: "/about",
   },
   {
-    label: "Services",
-    url: "/services",
-  },
-  {
     label: "Privacy",
     url: "/privacy",
   },

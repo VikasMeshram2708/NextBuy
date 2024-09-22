@@ -1,3 +1,5 @@
+"use client";
+
 import { LogOut, Menu, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -19,25 +21,22 @@ import {
 
 import { Input } from "./ui/input";
 import { links } from "@/app/seed/NavLInks";
+import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 
 export const Navbar = () => {
+  const { status } = useSession();
   return (
     <nav className="shadow">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center gap-2">
         <Link href="/" className="flex items-center" aria-label="Home">
-          <video
+          <Image
+            width={500}
+            height={500}
+            src="/nav-logo.png"
+            alt="NextBuy: Secure Online Shopping & Best Deals in India"
             className="w-12 bg-cover h-12 rounded-full"
-            style={{
-              placeSelf: "center",
-              boxSizing: "border-box",
-            }}
-            autoPlay
-            loop
-            muted
-          >
-            <source src="./logo.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          />
         </Link>
 
         <div className="hidden lg:block max-w-5xl w-full">
@@ -62,10 +61,25 @@ export const Navbar = () => {
                 ))}
               </div>
               <DropdownMenuItem>
-                <Button variant={"destructive"}>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
-                </Button>
+                {status === "authenticated" ? (
+                  <Button onClick={() => signOut()} variant={"destructive"}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </Button>
+                ) : (
+                  <>
+                    <Button variant={"secondary"}>
+                      <Link href="/login">
+                        <span>Login</span>
+                      </Link>
+                    </Button>
+                    <Button variant={"outline"}>
+                      <Link href="/signup">
+                        <span>Sign Up</span>
+                      </Link>
+                    </Button>
+                  </>
+                )}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -76,8 +90,6 @@ export const Navbar = () => {
           <Sheet>
             <SheetTrigger>
               <Menu color="white" />
-              {/* <Button variant={"secondary"}>
-              </Button> */}
             </SheetTrigger>
             <SheetContent className="dark">
               <SheetHeader>
@@ -116,10 +128,17 @@ export const Navbar = () => {
                   </ul>
                 </SheetTitle>
                 <SheetDescription className="mt-10 py-5">
-                  <span className="space-x-4">
-                    <Button variant={"secondary"}>Login</Button>
-                    <Button variant={"outline"}>Sign Up</Button>
-                  </span>
+                  {status === "authenticated" ? (
+                    <Button onClick={() => signOut()} variant={"destructive"}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Log out</span>
+                    </Button>
+                  ) : (
+                    <span className="space-x-4">
+                      <Button variant={"secondary"}>Login</Button>
+                      <Button variant={"outline"}>Sign Up</Button>
+                    </span>
+                  )}
                 </SheetDescription>
               </SheetHeader>
             </SheetContent>

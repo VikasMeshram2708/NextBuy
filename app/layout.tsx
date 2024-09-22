@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import Wrapper from "./Wrapper";
 import Footer from "@/components/Footer";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -17,42 +18,39 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "SecureCheckoutDeals: Safe Online Shopping & Best Deals in India",
+  title: "NextBuy: Secure Online Shopping & Best Deals in India",
   description:
-    "Shop securely on SecureCheckoutDeals.com. Find the best deals in India with safe and fast checkout. Wide product range, amazing discounts, and reliable delivery.",
+    "Discover unbeatable prices and secure shopping at NextBuy. Shop a wide range of products with fast delivery and exclusive discounts. Your trusted source for online shopping in India.",
   keywords: [
-    "secure checkout",
-    "online deals",
-    "safe shopping",
-    "e-commerce",
-    "India",
-    "discounts",
-    "fast delivery",
-    "best prices",
+    "secure online shopping",
+    "best deals in India",
+    "discounts on products",
+    "fast delivery e-commerce",
+    "buy online safely"
   ],
   robots: {
     index: true,
     follow: true,
   },
   alternates: {
-    canonical: "https://securecheckoutdeals.com",
+    canonical: "https://nextbuy.com",
   },
   openGraph: {
-    title: "SecureCheckoutDeals - Safe Shopping & Best Deals in India",
+    title: "NextBuy - Your Trusted Source for Secure Online Shopping",
     description:
-      "Experience secure online shopping with the best deals in India. Wide selection, great discounts, and safe checkout process.",
-    url: "https://securecheckoutdeals.com",
-    siteName: "SecureCheckoutDeals",
+      "Shop at NextBuy for the best deals and a secure checkout experience. Enjoy fast delivery and exclusive offers across India.",
+    url: "https://nextbuy.com",
+    siteName: "NextBuy",
     locale: "en_IN",
-    type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "SecureCheckoutDeals - Safe Shopping & Best Discounts in India",
+    title: "NextBuy - Secure Shopping & Amazing Deals in India",
     description:
-      "Shop with confidence on SecureCheckoutDeals. Best prices, secure checkout, and amazing deals across India!",
+      "Join NextBuy for safe online shopping with unbeatable deals and fast delivery. Shop now and save big!",
   },
 };
+
 
 export default function RootLayout({
   children,
@@ -65,6 +63,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Wrapper>
+          <Toaster />
           <Navbar />
           {children}
           <Footer />

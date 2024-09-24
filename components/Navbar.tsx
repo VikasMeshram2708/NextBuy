@@ -34,7 +34,14 @@ export default function Navbar() {
         <div className="hidden lg:block w-full max-w-lg md:max-w-xl lg:max-w-4xl xl:max-w-6xl mx-auto">
           <Input type="text" placeholder="Search" />
         </div>
-        <div className="hidden lg:flex gap-3">
+        <div className="hidden lg:flex gap-2">
+          {links?.map((link) => (
+            <Link href={link?.url} key={link?.url}>
+              {link?.label}
+            </Link>
+          ))}
+        </div>
+        <div className="hidden lg:block">
           {status === "loading" ? (
             <span className="myLoader"></span>
           ) : status === "authenticated" ? (

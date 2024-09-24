@@ -14,7 +14,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, LogOut, User } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
 export default function ProfilePage() {
@@ -86,7 +86,7 @@ export default function ProfilePage() {
             </span>
             <span className="ml-3 font-bold">View WishList</span>
           </Button>
-          <Button variant={"destructive"}>
+          <Button onClick={() => signOut()} variant={"destructive"}>
             <span>
               <LogOut />
             </span>

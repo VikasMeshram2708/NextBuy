@@ -50,14 +50,14 @@ export default function Navbar() {
               <LogOut />
             </Button>
           ) : (
-            <>
+            <span className="hidden lg:flex gap-3">
               <Button variant={"secondary"}>
                 <Link href="/login">Login</Link>
               </Button>
               <Button variant={"outline"}>
                 <Link href="/signup">Sign Up</Link>
               </Button>
-            </>
+            </span>
           )}
         </div>
         {/* Mobile Nav */}

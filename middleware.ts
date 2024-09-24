@@ -7,7 +7,7 @@ export async function middleware(req: NextRequest) {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
-  console.log('ses', session)
+  // console.log('ses', session)
 
   const path = req.nextUrl.pathname;
   const publicPaths = new Set(["/login", "/signup"]);
@@ -24,5 +24,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/signup"],
+  matcher: ["/", "/login", "/signup", "/user/:path*"],
 };

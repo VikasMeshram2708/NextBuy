@@ -12,12 +12,39 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Heart, List, LogOut, LucideOctagon, User } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Heart, LogOut, User } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 export default function ProfilePage() {
-  const { data } = useSession();
+  const { data, status } = useSession();
+
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen px-4 py-2 flex flex-col justify-center items-center">
+        <Card className="dark w-full max-w-lg mx-auto">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <Skeleton className="w-10 h-10 rounded-full" />
+              <span className="space-y-2">
+                <Skeleton className="w-80 h-2" />
+                <Skeleton className="w-80 h-2" />
+              </span>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <Skeleton className="w-full h-10" />
+          </CardContent>
+          <CardFooter className="flex items-center gap-3">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <Skeleton key={i} className="w-full h-8" />
+            ))}
+          </CardFooter>
+        </Card>
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen px-4 py-2 flex flex-col justify-center items-center">
       <Card className="dark w-full max-w-lg mx-auto">
@@ -35,7 +62,15 @@ export default function ProfilePage() {
           </div>
         </CardHeader>
         <CardContent>
-          <span>Total Items : <Link href="/user/billing" className="hover:underline text-blue-500 font-semibold">10 Vist Billing</Link></span>
+          <span>
+            Total Items :{" "}
+            <Link
+              href="/user/billing"
+              className="hover:underline text-blue-500 font-semibold"
+            >
+              10 Vist Billing
+            </Link>
+          </span>
         </CardContent>
         <Separator />
         <CardFooter className="py-5 space-x-4">

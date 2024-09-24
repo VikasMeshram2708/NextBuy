@@ -1,86 +1,95 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
-import Image from "next/image";
+import { useQuery } from "@tanstack/react-query";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "./ui/card";
+import Image from "next/image";
 import { Button } from "./ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Skeleton } from "./ui/skeleton";
-import { useDispatch} from "react-redux";
-import { addProduct } from "@/app/store/productSlice";
 
-type Props = {
-  isLoading: boolean;
-  products: dProduct[];
-};
-
-export default function ProductCard({ products, isLoading }: Props) {
-  const dispatch = useDispatch();
-
-  const handleAdd = async (productId: number) => {
-    // @ts-ignore
-    dispatch(addProduct({ productId }));
-  };
-
+export default function ProductCard() {
+  const { data = [], isLoading } = useQuery<dProduct[] | []>({
+    queryKey: ["products"],
+    queryFn: async () => {
+      const res = await fetch("https://dummyjson.com/products");
+      const result = await res.json();
+      return result?.products;
+    },
+  });
   return (
-    <section>
-      <div className="grid gap-3 md:gap-4 lg:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-        {isLoading
-          ? Array.from({ length: 4 }).map((_, i) => (
-              <Card className="dark" key={i}>
-                <CardHeader>
-                  <Skeleton className="w-full h-10" />
-                </CardHeader>
-
-                <CardContent>
-                  <Skeleton className="w-full h-40" />
-
-                  <span className="line-clamp-2">
-                    <Skeleton className="w-full h-[40px]" />
-                  </span>
-                </CardContent>
-
-                <CardFooter className="flex justify-between">
-                  <Skeleton className="w-[100px] h-[30px]" />
-                  <Skeleton className="w-[100px] h-[30px]" />
-                </CardFooter>
-              </Card>
-            ))
-          : products?.map((product) => (
-              <Card className="dark" key={product?.id}>
-                <CardHeader>
-                  <CardTitle>{product?.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="aspect-video relative">
-                    <Image
-                      src={product?.thumbnail}
-                      alt={product?.title}
-                      layout="fill"
-                    />
-                  </div>
-                  <span className="text-sm line-clamp-2">
-                    {product?.description}
-                  </span>
-                </CardContent>
-                <CardFooter className="flex justify-between flex-wrap gap-2">
-                  <Button variant={"ghost"}>$ {product?.price}</Button>
-                  {/* <Button variant={"destructive"}>Remove Item</Button> */}
-                  <Button
-                    onClick={() => handleAdd(+product?.id)}
-                    variant={"outline"}
-                  >
-                    Add To Cart
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
+    <div className="min-h-screen">
+      <div className="flex items-center justify-between py-10">
+        <h2 className="text-sm md:text-lg font-bold">Explore Hot Products</h2>
+        <Select>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Sort By : " />
+          </SelectTrigger>
+          <SelectContent className="dark">
+            <SelectItem value="light">Light</SelectItem>
+            <SelectItem value="dark">Dark</SelectItem>
+            <SelectItem value="system">System</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
-    </section>
+      {isLoading && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Card className="dark" key={i}>
+              <CardHeader>
+                <CardTitle>
+                  <Skeleton className="w-full h-4" />
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Skeleton className="aspect-video" />
+                <Skeleton className="w-full h-4" />
+              </CardContent>
+              <CardFooter>
+                <Skeleton className="w-full h-4" />
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      )}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {data &&
+          data?.map((item) => (
+            <Card className="dark" key={item?.id}>
+              <CardHeader>
+                <CardTitle className="line-clamp-1">{item?.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="relative aspect-video">
+                  <Image
+                    src={item?.thumbnail}
+                    layout="fill"
+                    alt={item?.title}
+                  />
+                </div>
+                <CardDescription className="line-clamp-2">
+                  {item?.description}
+                </CardDescription>
+              </CardContent>
+              <CardFooter className="flex items-center justify-between">
+                <span>${item?.price}</span>
+                <Button variant={"ghost"}>Add to cart</Button>
+              </CardFooter>
+            </Card>
+          ))}
+      </div>
+    </div>
   );
 }

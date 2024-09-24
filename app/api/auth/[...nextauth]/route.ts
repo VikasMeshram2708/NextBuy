@@ -62,6 +62,7 @@ const handler = NextAuth({
         // @ts-ignore
         token.username = user?.username;
         token.email = user?.email;
+        token.expires = Math.floor(Date.now() / 1000) + 60 * 60; // Add 1 hour
       }
       return token;
     },
@@ -73,9 +74,14 @@ const handler = NextAuth({
         session.user.username = token?.username;
         // @ts-ignore
         session.user.email = token?.email;
+        // @ts-ignore
+        session.expires = new Date(token.expires * 1000).toISOString();
       }
       return session;
     },
+  },
+  session: {
+    maxAge: 60 * 60, // 1 hour
   },
 });
 

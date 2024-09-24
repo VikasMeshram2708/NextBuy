@@ -3,11 +3,10 @@
 
 import ProductsCarousel from "@/components/ProductsCarousel";
 import { useQuery } from "@tanstack/react-query";
-import { lazy, Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchProduct } from "./store/productSlice";
-
-const ProductCard = lazy(() => import("@/components/ProductCard"));
+import ProductCard from "@/components/ProductCard";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -36,16 +35,14 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <main className="container mx-auto mt-10 px-4 py-10 space-y-10">
-        <Suspense fallback={<p className="text-sm">Loading...</p>}>
-          <ProductsCarousel />
-          {isLoading ? (
-            <p>Loading products...</p>
-          ) : error ? (
-            <p>Error fetching products: {error.message}</p>
-          ) : (
-            <ProductCard products={data} isLoading={isLoading} />
-          )}
-        </Suspense>
+        <ProductsCarousel />
+        {isLoading ? (
+          <span className="myCusomLoader"></span>
+        ) : error ? (
+          <p>Error fetching products: {error.message}</p>
+        ) : (
+          <ProductCard products={data} isLoading={isLoading} />
+        )}
       </main>
     </div>
   );

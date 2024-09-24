@@ -70,7 +70,7 @@ export default function ProductCard({ products, isLoading }: Props) {
                 </CardContent>
                 <CardFooter className="flex justify-between flex-wrap gap-2">
                   <Button variant={"ghost"}>$ {product?.price}</Button>
-                  <Button variant={"destructive"}>Remove Item</Button>
+                  {/* <Button variant={"destructive"}>Remove Item</Button> */}
                   <Button
                     onClick={() => handleAdd(+product?.id)}
                     variant={"outline"}

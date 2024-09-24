@@ -1,16 +1,15 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import { LogOut, Menu, ShoppingCart } from "lucide-react";
-import Link from "next/link";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "./ui/sheet";
+} from "@/components/ui/sheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,140 +17,121 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-import { Input } from "./ui/input";
-import { links } from "@/app/seed/NavLInks";
+import { Input } from "@/components/ui/input";
 import { signOut, useSession } from "next-auth/react";
-import Image from "next/image";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
+import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { links } from "@/app/seed/NavLInks";
 
 export const Navbar = () => {
   const { status } = useSession();
-  const pCount = useSelector((state: RootState) => state.product.products);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { products } = useSelector((state: RootState) => state.product);
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      setIsAuthenticated(true);
+    }
+
+    if (status === "unauthenticated") {
+      setIsAuthenticated(false);
+    }
+  }, [status]);
+
+  const handleLogout = async () => {
+    await signOut();
+  };
 
   return (
-    <nav className="shadow">
-      <div className="container mx-auto px-4 py-3 flex justify-between items-center gap-2">
-        <Link href="/" className="flex items-center" aria-label="Home">
-          <Image
-            width={500}
-            height={500}
-            src="/nav-logo.png"
-            alt="NextBuy: Secure Online Shopping & Best Deals in India"
-            className="w-12 bg-cover h-12 rounded-full"
-          />
+    <nav className="text-white shadow-md">
+      <div className="container mx-auto px-4 py-3 flex justify-between gap-3 items-center">
+        <Link href="/" className="text-xl font-bold">
+          <Avatar>
+            <AvatarImage src="/nav-logo.png" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
         </Link>
 
-        <div className="hidden lg:block max-w-5xl w-full">
-          <Input placeholder="Search" className="rounded" />
+        <div className="hidden md:flex w-full md:max-w-4xl lg:max-w-5xl mx-auto items-center space-x-4">
+          <Input placeholder="Search" />
         </div>
 
-        <div className="hidden lg:block">
+        <div className="hidden md:flex items-center space-x-4">
+          {links.map((link) => (
+            <Link
+              key={link.label}
+              href={link.url}
+              className="hover:text-gray-300"
+            >
+              {link.label}
+            </Link>
+          ))}
+
           <DropdownMenu>
-            <DropdownMenuTrigger>
-              <ShoppingCart />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="dark">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              {/* <DropdownMenuSeparator /> */}
-              <div>
-                {links?.map((i) => (
-                  <DropdownMenuItem key={i?.label} className="relative">
-                    <Link href={i.url}>
-                      <span>{i.label}</span>
-                      {i.label === "Billing" && (
-                        <span className="absolute right-2 top-2">
-                          {pCount?.length}
-                        </span>
-                      )}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-              </div>
-              <DropdownMenuItem>
-                {status === "authenticated" ? (
-                  <Button onClick={() => signOut()} variant={"destructive"}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
-                  </Button>
-                ) : (
-                  <>
-                    <Button variant={"secondary"}>
-                      <Link href="/login">
-                        <span>Login</span>
-                      </Link>
-                    </Button>
-                    <Button variant={"outline"}>
-                      <Link href="/signup">
-                        <span>Sign Up</span>
-                      </Link>
-                    </Button>
-                  </>
+            <DropdownMenuTrigger className="relative" asChild>
+              <Button variant="ghost" size="icon">
+                <ShoppingCart className="h-5 w-5" />
+                {products?.length > 0 && (
+                  <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                    {products?.length}
+                  </span>
                 )}
-              </DropdownMenuItem>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Cart</DropdownMenuLabel>
+              <DropdownMenuItem>View Cart</DropdownMenuItem>
+              <DropdownMenuItem>Checkout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+
+          {status === "loading" ? (
+            <span className="myLoader"></span>
+          ) : isAuthenticated ? (
+            <Button onClick={handleLogout} variant="destructive" size="sm">
+              <LogOut className="mr-2 h-4 w-4" />
+              Logout
+            </Button>
+          ) : (
+            <Button variant="secondary" size="sm">
+              Login
+            </Button>
+          )}
         </div>
 
-        {/* Mobile Navigation */}
-        <div className="lg:hidden">
-          <Sheet>
-            <SheetTrigger>
-              <Menu color="white" />
-            </SheetTrigger>
-            <SheetContent className="dark">
-              <SheetHeader>
-                <SheetTitle className="">
-                  <Link
-                    href="/"
-                    className="flex items-center"
-                    aria-label="Home"
-                  >
-                    <Image
-                      width={500}
-                      height={500}
-                      src="/nav-logo.png"
-                      alt="NextBuy: Secure Online Shopping & Best Deals in India"
-                      className="w-12 bg-cover h-12 rounded-full"
-                    />
-                  </Link>
-
-                  {/* Desktop Navigation */}
-                  <ul className="grid w-full items-center space-y-4 mt-10">
-                    {links.map((item) => (
-                      <Link
-                        key={item.label}
-                        href={item.url}
-                        className="text-white relative text-sm hover:underline transition"
-                      >
-                        <span>{item.label}</span>
-                        {item.label === "Billing" && (
-                          <span className="absolute right-2 top-0">
-                            {pCount?.length}
-                          </span>
-                        )}
-                      </Link>
-                    ))}
-                  </ul>
-                </SheetTitle>
-                <SheetDescription className="mt-10 py-5">
-                  {status === "authenticated" ? (
-                    <Button onClick={() => signOut()} variant={"destructive"}>
-                      <LogOut className="mr-2 h-4 w-4" />
-                      <span>Log out</span>
-                    </Button>
-                  ) : (
-                    <span className="space-x-4">
-                      <Button variant={"secondary"}>Login</Button>
-                      <Button variant={"outline"}>Sign Up</Button>
-                    </span>
-                  )}
-                </SheetDescription>
-              </SheetHeader>
-            </SheetContent>
-          </Sheet>
-        </div>
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon" className="md:hidden">
+              <Menu className="h-5 w-5" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="bg-gray-800 text-white">
+            <SheetHeader>
+              <SheetTitle className="text-white">Menu</SheetTitle>
+            </SheetHeader>
+            <div className="mt-6 flex flex-col space-y-4">
+              {links.map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.url}
+                  className="text-lg hover:text-gray-300"
+                >
+                  {link.label}
+                </Link>
+              ))}
+              {isAuthenticated ? (
+                <Button onClick={handleLogout} variant="destructive">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Logout
+                </Button>
+              ) : (
+                <Button variant="secondary">Login</Button>
+              )}
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
     </nav>
   );

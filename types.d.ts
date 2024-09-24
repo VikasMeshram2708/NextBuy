@@ -1,3 +1,13 @@
+interface User {
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  product: [];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 interface UserSession {
   email: string;
   sub: string;

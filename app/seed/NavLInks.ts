@@ -10,22 +10,22 @@ export const links: NavLink[] = [
   },
   {
     label: "About",
-    url: "/about",
+    url: "/user/about",
   },
   {
     label: "Privacy",
-    url: "/privacy",
+    url: "/user/privacy",
   },
   {
     label: "Contact",
-    url: "/contact",
+    url: "/user/contact",
   },
   {
     label: "Profile",
-    url: "/profile",
+    url: "/user/profile",
   },
   {
     label: "Billing",
-    url: "/billing",
+    url: "/user/billing",
   },
 ];

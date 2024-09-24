@@ -1,0 +1,44 @@
+[8050:0924/145659.703656:ERROR:platform_thread_posix.cc(157)] pthread_create: Resource temporarily unavailable (11)
+[90m[main 2024-09-24T09:26:59.726Z][0m update#setState disabled
+[90m[main 2024-09-24T09:26:59.730Z][0m update#ctor - updates are disabled as there is no update URL
+[91m[main 2024-09-24T09:26:59.791Z][0m [storage state.vscdb] error checking size of src.vs.platform.reactivestorage.browser.reactiveStorageServiceImpl.persistentStorage.workspaceUser: Error: Unexpected number of rows - 0
+[91m[main 2024-09-24T09:26:59.873Z][0m CodeWindow: renderer process gone (reason: crashed, code: 132)
+
+(cursor:7974): Gtk-WARNING **: 14:56:59.888: Theme directory apps@2x/22 of theme WhiteSur-dark has no size field
+
+
+(cursor:7974): Gtk-WARNING **: 14:56:59.888: Theme directory apps@2x/32 of theme WhiteSur-dark has no size field
+
+
+(cursor:7974): Gtk-WARNING **: 14:56:59.888: Theme directory preferences@2x/22 of theme WhiteSur-dark has no size field
+
+[8745:0924/145732.546029:ERROR:platform_thread_posix.cc(157)] pthread_create: Resource temporarily unavailable (11)
+[90m[main 2024-09-24T09:27:32.569Z][0m update#setState disabled
+[90m[main 2024-09-24T09:27:32.573Z][0m update#ctor - updates are disabled as there is no update URL
+[91m[main 2024-09-24T09:27:32.631Z][0m [storage state.vscdb] error checking size of src.vs.platform.reactivestorage.browser.reactiveStorageServiceImpl.persistentStorage.workspaceUser: Error: Unexpected number of rows - 0
+[91m[main 2024-09-24T09:27:32.777Z][0m CodeWindow: renderer process gone (reason: crashed, code: 132)
+
+(cursor:8668): Gtk-WARNING **: 14:57:32.788: Theme directory apps@2x/22 of theme WhiteSur-dark has no size field
+
+
+(cursor:8668): Gtk-WARNING **: 14:57:32.788: Theme directory apps@2x/32 of theme WhiteSur-dark has no size field
+
+
+(cursor:8668): Gtk-WARNING **: 14:57:32.788: Theme directory preferences@2x/22 of theme WhiteSur-dark has no size field
+
+[9149:0924/145738.136727:ERROR:platform_thread_posix.cc(157)] pthread_create: Resource temporarily unavailable (11)
+[90m[main 2024-09-24T09:27:38.153Z][0m update#setState disabled
+[90m[main 2024-09-24T09:27:38.158Z][0m update#ctor - updates are disabled as there is no update URL
+[91m[main 2024-09-24T09:27:38.234Z][0m [storage state.vscdb] error checking size of src.vs.platform.reactivestorage.browser.reactiveStorageServiceImpl.persistentStorage.workspaceUser: Error: Unexpected number of rows - 0
+[91m[main 2024-09-24T09:27:38.319Z][0m CodeWindow: renderer process gone (reason: crashed, code: 132)
+
+(cursor:9044): Gtk-WARNING **: 14:57:38.328: Theme directory apps@2x/22 of theme WhiteSur-dark has no size field
+
+
+(cursor:9044): Gtk-WARNING **: 14:57:38.328: Theme directory apps@2x/32 of theme WhiteSur-dark has no size field
+
+
+(cursor:9044): Gtk-WARNING **: 14:57:38.329: Theme directory preferences@2x/22 of theme WhiteSur-dark has no size field
+
+[9388:0924/145739.785958:ERROR:platform_thread_posix.cc(157)] pthread_create: Resource temporarily unavailable (11)
+[91m[main 2024-09-24T09:27:39.920Z][0m CodeWindow: renderer process gone (reason: crashed, code: 132)

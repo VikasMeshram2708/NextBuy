@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Navbar } from "@/components/Navbar";
-import Wrapper from "./Wrapper";
-import Footer from "@/components/Footer";
 import { Toaster } from "react-hot-toast";
 
 const geistSans = localFont({
@@ -26,7 +23,7 @@ export const metadata: Metadata = {
     "best deals in India",
     "discounts on products",
     "fast delivery e-commerce",
-    "buy online safely"
+    "buy online safely",
   ],
   robots: {
     index: true,
@@ -51,7 +48,6 @@ export const metadata: Metadata = {
   },
 };
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -62,12 +58,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Wrapper>
-          <Toaster />
-          <Navbar />
-          {children}
-          <Footer />
-        </Wrapper>
+        <Toaster />
+        {children}
       </body>
     </html>
   );

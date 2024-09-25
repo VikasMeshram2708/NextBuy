@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "./ui/button";
-import { LogOut, Menu } from "lucide-react";
+import { LogOut, Menu, ShoppingBasket } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -45,10 +45,15 @@ export default function Navbar() {
           {status === "loading" ? (
             <span className="myLoader"></span>
           ) : status === "authenticated" ? (
-            <Button onClick={handleLogout} variant={"destructive"}>
-              <span className="mr-2 text-sm font-bold">Logout</span>
-              <LogOut />
-            </Button>
+            <span className="flex items-center gap-2">
+              <Button variant={"ghost"}>
+                <ShoppingBasket />
+              </Button>
+              <Button onClick={handleLogout} variant={"destructive"}>
+                <span className="mr-2 text-sm font-bold">Logout</span>
+                <LogOut />
+              </Button>
+            </span>
           ) : (
             <span className="hidden lg:flex gap-3">
               <Button variant={"secondary"}>

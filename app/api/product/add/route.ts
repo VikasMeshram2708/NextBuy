@@ -34,7 +34,12 @@ export const POST = async (request: NextRequest) => {
 
     await prismaInstance.product.create({
       data: {
-        id: String(parsedData.productId),
+        title: parsedData.title,
+        price: +parsedData.price,
+        description: parsedData.description,
+        category: parsedData.category,
+        image: parsedData.image,
+        rating: +parsedData.rating,
         User: {
           connect: {
             id: String(session?.id),

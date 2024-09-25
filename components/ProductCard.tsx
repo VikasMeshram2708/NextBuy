@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   Card,
   CardContent,
@@ -19,16 +20,88 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "./ui/skeleton";
+import { Star } from "lucide-react";
+import toast from "react-hot-toast";
+
+// Define the Product interface for type safety
+interface Product {
+  _id: string;
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  image: string;
+  rating: number;
+}
 
 export default function ProductCard() {
-  const { data = [], isLoading } = useQuery<dProduct[] | []>({
+  const {
+    data = [],
+    isLoading,
+    isError,
+  } = useQuery<Product[]>({
     queryKey: ["products"],
     queryFn: async () => {
-      const res = await fetch("https://dummyjson.com/products");
-      const result = await res.json();
-      return result?.products;
+      const res = await fetch(
+        "https://fakestoreapiserver.reactbd.com/products"
+      );
+      if (!res.ok) {
+        throw new Error("Failed to fetch products");
+      }
+      return res.json();
     },
   });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (productData: Product) => {
+      const res = await fetch("/api/product/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productData),
+      });
+      const result = await res.json();
+      if (!res.ok) {
+        throw new Error(result?.message || "Failed to Add Product");
+      }
+      return result;
+    },
+    onSuccess: (result) => {
+      toast.success(result?.message || "Product Added");
+    },
+    onError: (error: any) => {
+      toast.error(error?.message || "Failed to Add Product");
+    },
+  });
+
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <Card className="dark" key={i}>
+            <CardHeader>
+              <CardTitle>
+                <Skeleton className="w-full h-4" />
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Skeleton className="aspect-video" />
+              <Skeleton className="w-full h-4" />
+            </CardContent>
+            <CardFooter>
+              <Skeleton className="w-full h-4" />
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+    );
+  }
+
+  if (isError) {
+    return <div>Error fetching products. Please try again later.</div>;
+  }
+
   return (
     <div className="min-h-screen">
       <div className="flex items-center justify-between py-10">
@@ -38,57 +111,51 @@ export default function ProductCard() {
             <SelectValue placeholder="Sort By : " />
           </SelectTrigger>
           <SelectContent className="dark">
-            <SelectItem value="light">Light</SelectItem>
-            <SelectItem value="dark">Dark</SelectItem>
-            <SelectItem value="system">System</SelectItem>
+            <SelectItem value="highToLow">High to Low</SelectItem>
+            <SelectItem value="lowToHigh">Low to High</SelectItem>
+            <SelectItem value="ascending">Ascending</SelectItem>
+            <SelectItem value="descending">Descending</SelectItem>
           </SelectContent>
         </Select>
       </div>
-      {isLoading && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <Card className="dark" key={i}>
-              <CardHeader>
-                <CardTitle>
-                  <Skeleton className="w-full h-4" />
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Skeleton className="aspect-video" />
-                <Skeleton className="w-full h-4" />
-              </CardContent>
-              <CardFooter>
-                <Skeleton className="w-full h-4" />
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {data &&
-          data?.map((item) => (
-            <Card className="dark" key={item?.id}>
-              <CardHeader>
-                <CardTitle className="line-clamp-1">{item?.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="relative aspect-video">
-                  <Image
-                    src={item?.thumbnail}
-                    layout="fill"
-                    alt={item?.title}
-                  />
+        {data.map((item) => (
+          <Card className="dark" key={item._id}>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="line-clamp-1">{item.title}</CardTitle>
+                {/* Add rating */}
+                <div className="flex items-center mt-2">
+                  <Star className="w-4 h-4 text-yellow-400 mr-1" />
+                  <span>
+                    {item.rating ? item.rating.toFixed(1) : "N/A"}
+                  </span>{" "}
+                  {/* Handle undefined ratings */}
                 </div>
-                <CardDescription className="line-clamp-2">
-                  {item?.description}
-                </CardDescription>
-              </CardContent>
-              <CardFooter className="flex items-center justify-between">
-                <span>${item?.price}</span>
-                <Button variant={"ghost"}>Add to cart</Button>
-              </CardFooter>
-            </Card>
-          ))}
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="relative aspect-video">
+                <Image
+                  src={item.image}
+                  className="bg-cover object-contain"
+                  layout="fill"
+                  alt={item.title}
+                />
+              </div>
+              <CardDescription className="line-clamp-2 py-5">
+                {item.description}
+              </CardDescription>
+            </CardContent>
+            <CardFooter className="flex items-center justify-between">
+              <span>${item.price}</span>
+              <Button disabled={isPending} onClick={() => mutate(item)} variant={"ghost"}>
+                Add to cart
+              </Button>
+            </CardFooter>
+          </Card>
+        ))}
       </div>
     </div>
   );

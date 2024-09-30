@@ -46,7 +46,8 @@ export default function Navbar() {
             <span className="myLoader"></span>
           ) : status === "authenticated" ? (
             <span className="flex items-center gap-2">
-              <Button variant={"ghost"}>
+              <Button className="relative" variant={"ghost"}>
+                <span className="absolute top-0 right-2 w-5 h-5 bg-red-500 rounded-full">2</span>
                 <ShoppingBasket />
               </Button>
               <Button onClick={handleLogout} variant={"destructive"}>

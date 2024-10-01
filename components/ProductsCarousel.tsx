@@ -13,7 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useGetCarouselProductsQuery } from "@/app/store/product/productSlice";
 
 export default function ProductsCarousel() {
-  const { data, isLoading } = useGetCarouselProductsQuery({});
+  const { data, isLoading } = useGetCarouselProductsQuery([]);
   if (isLoading) {
     return (
       <Carousel className="dark container max-w-7xl mx-auto">
@@ -38,7 +38,7 @@ export default function ProductsCarousel() {
     <div>
       <Carousel className="container mx-auto">
         <CarouselContent>
-          {data.map((item: Product) => (
+          {data?.map((item) => (
             <CarouselItem key={item.id}>
               <Card>
                 <CardContent>

@@ -4,7 +4,7 @@ export const productSlice = createApi({
   reducerPath: "carouselProducts",
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_PRODUCTS_CAROUSEL}),
   endpoints: (builder) => ({
-    getCarouselProducts: builder.query({
+    getCarouselProducts: builder.query<carouselProduct[], []>({
       query: () => "/products",
     }),
   }),

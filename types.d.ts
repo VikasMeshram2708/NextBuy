@@ -18,7 +18,7 @@ interface UserSession {
   jti: string;
 }
 
-interface Product {
+interface carouselProduct {
   id: number;
   title: string;
   price: number;
@@ -31,10 +31,10 @@ interface Product {
   };
 }
 
-interface dProduct {
+interface cardProduct {
   _id: number;
   title: string;
-  isNew: true;
+  isNew: boolean;
   oldPrice: string;
   price: number;
   description: string;

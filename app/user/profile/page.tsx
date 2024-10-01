@@ -16,6 +16,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, LogOut, User } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 export default function ProfilePage() {
   const { data, status } = useSession();
@@ -74,13 +75,13 @@ export default function ProfilePage() {
         </CardContent>
         <Separator />
         <CardFooter className="py-5 space-x-4">
-          <Button>
+          <Button onClick={() => toast.error("Comming Soon")}>
             <span>
               <User />
             </span>
             <span className="ml-3 font-bold">Edit Profile</span>
           </Button>
-          <Button variant={"secondary"}>
+          <Button variant={"secondary"} onClick={() => toast.error("Comming Soon")}>
             <span>
               <Heart />
             </span>

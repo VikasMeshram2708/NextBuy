@@ -15,9 +15,12 @@ import {
 import { links } from "@/app/seed/NavLInks";
 import { Input } from "./ui/input";
 import { signOut, useSession } from "next-auth/react";
+import { useGetProductsCountQuery } from "@/app/store/product/productSlice";
 
 export default function Navbar() {
   const { status } = useSession();
+  const { data: totalProducts, isLoading } = useGetProductsCountQuery({});
+  // console.log("tp", totalProducts);
 
   const handleLogout = async () => {
     await signOut();
@@ -28,7 +31,7 @@ export default function Navbar() {
         <Link href="/">
           <Avatar>
             <AvatarImage src="./nav-logo.png" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarFallback>NB</AvatarFallback>
           </Avatar>
         </Link>
         <div className="hidden lg:block w-full max-w-lg md:max-w-xl lg:max-w-4xl xl:max-w-6xl mx-auto">
@@ -47,7 +50,9 @@ export default function Navbar() {
           ) : status === "authenticated" ? (
             <span className="flex items-center gap-2">
               <Button className="relative" variant={"ghost"}>
-                <span className="absolute top-0 right-2 w-5 h-5 bg-red-500 rounded-full">2</span>
+                <span className="absolute top-0 right-2 w-5 h-5 bg-red-500 rounded-full">
+                  {isLoading ? "..." :totalProducts}
+                </span>
                 <ShoppingBasket />
               </Button>
               <Button onClick={handleLogout} variant={"destructive"}>
@@ -77,11 +82,11 @@ export default function Navbar() {
                 <Link href="/">
                   <Avatar>
                     <AvatarImage src="./nav-logo.png" />
-                    <AvatarFallback>CN</AvatarFallback>
+                    <AvatarFallback>NB</AvatarFallback>
                   </Avatar>
                 </Link>
               </SheetTitle>
-              <SheetDescription className="grid gap-2">
+              <SheetDescription className="grid gap-2 py-10">
                 {links?.map((link) => (
                   <Link
                     key={link?.url}

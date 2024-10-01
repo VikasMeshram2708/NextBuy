@@ -7,31 +7,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "./ui/card";
 import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useGetCarouselProductsQuery } from "@/app/store/product/productSlice";
 
 export default function ProductsCarousel() {
-  const { data = [], isLoading } = useQuery({
-    queryKey: ["product"],
-    queryFn: async () => {
-      try {
-        const res = await fetch("https://fakestoreapi.com/products");
-        const result = await res.json();
-        if (!res.ok) {
-          throw new Error("Failed to Fetch Products");
-        }
-        return result;
-      } catch (error: unknown) {
-        console.log(
-          `Something went wrong. Failed to fetch products ; ${error}`
-        );
-        throw new Error("Failed to Fetch Products");
-      }
-    },
-  });
-
+  const { data, isLoading } = useGetCarouselProductsQuery({});
   if (isLoading) {
     return (
       <Carousel className="dark container max-w-7xl mx-auto">

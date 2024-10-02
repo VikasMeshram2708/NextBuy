@@ -19,6 +19,13 @@ export const productSlice = createApi({
       providesTags: ["Product"],
     }),
 
+    fetchCartProducts: builder.query<cardProduct[], void>({
+      query: () => `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/product/all`,
+      transformResponse: (response: { products: cardProduct[] }) => {
+        return response?.products;
+      },
+    }),
+
     addProduct: builder.mutation({
       query: (productDetails: cardProduct) => ({
         url: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/product/add`,
@@ -37,4 +44,5 @@ export const {
   useGetCarouselProductsQuery,
   useGetProductsCountQuery,
   useAddProductMutation,
+  useFetchCartProductsQuery,
 } = productSlice;

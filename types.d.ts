@@ -42,3 +42,16 @@ interface cardProduct {
   image: string;
   rating: number;
 }
+
+interface cartProducts {
+  id: string;
+  title: string;
+  price: number;
+  description: number;
+  category: string;
+  image: string;
+  rating: number;
+  createdAt: string;
+  updatedAt: string;
+  userId: string;
+}

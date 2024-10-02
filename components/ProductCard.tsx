@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   Card,
   CardContent,
@@ -23,26 +22,14 @@ import {
 import { Skeleton } from "./ui/skeleton";
 import { Star } from "lucide-react";
 import toast from "react-hot-toast";
-import { useAddProductMutation } from "@/app/store/product/productSlice";
+import {
+  useAddProductMutation,
+  useFetchCardProductsQuery,
+} from "@/app/store/product/productSlice";
 import { useEffect } from "react";
 
 export default function ProductCard() {
-  const {
-    data = [],
-    isLoading,
-    isError,
-  } = useQuery<cardProduct[]>({
-    queryKey: ["products"],
-    queryFn: async () => {
-      const res = await fetch(
-        "https://fakestoreapiserver.reactbd.com/products"
-      );
-      if (!res.ok) {
-        throw new Error("Failed to fetch products");
-      }
-      return res.json();
-    },
-  });
+  const { data, isLoading, isError } = useFetchCardProductsQuery();
 
   const [addProduct, { isLoading: isAdding, isSuccess, data: msg }] =
     useAddProductMutation();
@@ -52,7 +39,7 @@ export default function ProductCard() {
       toast.success(msg?.message || "Product Added");
     }
   }, [isSuccess, msg]);
-  
+
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -98,7 +85,7 @@ export default function ProductCard() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {data.map((item) => (
+        {data?.map((item) => (
           <Card className="dark" key={item._id}>
             <CardHeader>
               <div className="flex items-center justify-between">
@@ -130,7 +117,6 @@ export default function ProductCard() {
               <span>${item.price}</span>
               <Button
                 disabled={isAdding}
-                // onClick={() => mutate(item)}
                 onClick={() => addProduct(item)}
                 variant={"ghost"}
               >

@@ -19,11 +19,32 @@ export const productSlice = createApi({
       providesTags: ["Product"],
     }),
 
-    fetchCartProducts: builder.query<cardProduct[], void>({
+    fetchCartProducts: builder.query<cartProducts[], void>({
       query: () => `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/product/all`,
-      transformResponse: (response: { products: cardProduct[] }) => {
+      transformResponse: (response: { products: cartProducts[] }) => {
         return response?.products;
       },
+      providesTags: ["Product"],
+    }),
+
+    fetchCardProducts: builder.query<cardProduct[], void>({
+      query: () => `${process.env.NEXT_PUBLIC_CARD_PRODUCTS}`,
+      providesTags: ["Product"],
+    }),
+
+    deleteProduct: builder.mutation({
+      query: (productId: string) => ({
+        url: `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/product/delete`,
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: { productId },
+      }),
+      transformResponse: (response) => {
+        return response;
+      },
+      invalidatesTags: ["Product"],
     }),
 
     addProduct: builder.mutation({
@@ -45,4 +66,6 @@ export const {
   useGetProductsCountQuery,
   useAddProductMutation,
   useFetchCartProductsQuery,
+  useFetchCardProductsQuery,
+  useDeleteProductMutation,
 } = productSlice;

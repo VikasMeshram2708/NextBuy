@@ -51,9 +51,11 @@ export default function Navbar() {
             <span className="flex items-center gap-2">
               <Button className="relative" variant={"ghost"}>
                 <span className="absolute top-0 right-2 w-5 h-5 bg-red-500 rounded-full">
-                  {isLoading ? "..." :totalProducts}
+                  {isLoading ? "..." : totalProducts}
                 </span>
-                <ShoppingBasket />
+                <Link href="/user/billing">
+                  <ShoppingBasket />
+                </Link>
               </Button>
               <Button onClick={handleLogout} variant={"destructive"}>
                 <span className="mr-2 text-sm font-bold">Logout</span>

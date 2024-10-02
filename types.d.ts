@@ -34,8 +34,8 @@ interface carouselProduct {
 interface cardProduct {
   _id: number;
   title: string;
-  isNew: boolean;
-  oldPrice: string;
+  isNew?: boolean;
+  oldPrice?: string;
   price: number;
   description: string;
   category: string;

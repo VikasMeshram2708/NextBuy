@@ -19,14 +19,14 @@ import { useGetProductsCountQuery } from "@/app/store/product/productSlice";
 
 export default function Navbar() {
   const { status } = useSession();
-  const { data: totalProducts, isLoading } = useGetProductsCountQuery({});
+  const { data: totalProducts, isLoading } = useGetProductsCountQuery();
   // console.log("tp", totalProducts);
 
   const handleLogout = async () => {
     await signOut();
   };
   return (
-    <header className="px-4 py-2 w-full">
+    <header className="backdrop-blur bg-background/50 z-40 sticky top-0 px-4 py-2 w-full">
       <nav className="container mx-auto flex items-center justify-between gap-3">
         <Link href="/">
           <Avatar>

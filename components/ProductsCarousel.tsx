@@ -13,10 +13,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useGetCarouselProductsQuery } from "@/app/store/product/productSlice";
 
 export default function ProductsCarousel() {
-  const { data, isLoading } = useGetCarouselProductsQuery([]);
+  const { data, isLoading } = useGetCarouselProductsQuery();
   if (isLoading) {
     return (
-      <Carousel className="dark container max-w-7xl mx-auto">
+      <Carousel className="dark container mx-auto">
         <CarouselContent>
           {Array.from({ length: 3 }).map((_, index) => (
             <CarouselItem key={index}>

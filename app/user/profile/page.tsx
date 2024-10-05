@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
+import { useGetProductsCountQuery } from "@/app/store/product/productSlice";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,10 +17,22 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, LogOut, User } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function ProfilePage() {
   const { data, status } = useSession();
+  const { data: totalProducts, isLoading: dataCountLoading } =
+    useGetProductsCountQuery();
+
+  const [pCount, setPCount] = useState(totalProducts);
+
+  useEffect(() => {
+    if (dataCountLoading) {
+      setPCount(0);
+    }
+    setPCount(totalProducts);
+  }, [totalProducts, dataCountLoading]);
 
   if (status === "loading") {
     return (
@@ -69,7 +82,7 @@ export default function ProfilePage() {
               href="/user/billing"
               className="hover:underline text-blue-500 font-semibold"
             >
-              10 Vist Billing
+              {pCount} Vist Billing
             </Link>
           </span>
         </CardContent>
@@ -81,7 +94,10 @@ export default function ProfilePage() {
             </span>
             <span className="ml-3 font-bold">Edit Profile</span>
           </Button>
-          <Button variant={"secondary"} onClick={() => toast.error("Comming Soon")}>
+          <Button
+            variant={"secondary"}
+            onClick={() => toast.error("Comming Soon")}
+          >
             <span>
               <Heart />
             </span>

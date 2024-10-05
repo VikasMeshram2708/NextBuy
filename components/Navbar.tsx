@@ -16,11 +16,19 @@ import { links } from "@/app/seed/NavLInks";
 import { Input } from "./ui/input";
 import { signOut, useSession } from "next-auth/react";
 import { useGetProductsCountQuery } from "@/app/store/product/productSlice";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const { status } = useSession();
   const { data: totalProducts, isLoading } = useGetProductsCountQuery();
-  // console.log("tp", totalProducts);
+  const [pCount, setPCount] = useState(totalProducts);
+
+  useEffect(() => {
+    if (isLoading) {
+      setPCount(0);
+    }
+    setPCount(totalProducts);
+  }, [isLoading, setPCount, totalProducts]);
 
   const handleLogout = async () => {
     await signOut();
@@ -30,7 +38,7 @@ export default function Navbar() {
       <nav className="container mx-auto flex items-center justify-between gap-3">
         <Link href="/">
           <Avatar>
-            <AvatarImage src="./nav-logo.png" />
+            <AvatarImage src="/nav-logo.png" />
             <AvatarFallback>NB</AvatarFallback>
           </Avatar>
         </Link>
@@ -51,7 +59,7 @@ export default function Navbar() {
             <span className="flex items-center gap-2">
               <Button className="relative" variant={"ghost"}>
                 <span className="absolute top-0 right-2 w-5 h-5 bg-red-500 rounded-full">
-                  {isLoading ? "..." : totalProducts}
+                  {isLoading ? "..." : pCount}
                 </span>
                 <Link href="/user/billing">
                   <ShoppingBasket />
